@@ -1,7 +1,7 @@
-from users.models import CustomUser
-from django.db import models
-from django.core.validators import (MinValueValidator, MaxValueValidator)
 from colorfield.fields import ColorField
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from users.models import CustomUser
 
 
 class Ingredient(models.Model):
