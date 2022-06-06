@@ -17,7 +17,8 @@ from reportlab.pdfgen import canvas
 from rest_framework import permissions, viewsets
 from rest_framework.response import Response
 
-from recipes.models import (ShoppingCart, Favorite, Ingredient, IngredientRecipe,
+from recipes.models import (ShoppingCart, Favorite, Ingredient,
+                            IngredientRecipe,
                             Recipe, Subscribe, Tag)
 from users.models import CustomUser
 from .filters import IngredientSearchFilter, RecipeFilters
@@ -36,9 +37,6 @@ class CreateUserView(UserViewSet):
 
     def get_queryset(self):
         return CustomUser.objects.all()
-
-
-
 
 
 class SubscribeViewSet(viewsets.ModelViewSet):
@@ -99,7 +97,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """
         Метод подстановки параметров автора при создании рецепта.
-        The method of substituting the author's parameters when creating a recipe.
+        The method of substituting the author's parameters when
+        creating a recipe.
         """
         serializer.save(author=self.request.user)
 

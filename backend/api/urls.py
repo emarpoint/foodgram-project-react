@@ -33,7 +33,7 @@ urlpatterns = [
                                   'delete': 'delete'}), name='favorite'),
     path('recipes/<recipes_id>/shopping_cart/',
          ShoppingCartViewSet.as_view({'post': 'create',
-                              'delete': 'delete'}), name='cart'),
+                                     'delete': 'delete'}), name='cart'),
     path('', include(router.urls)),
     path('auth/', include('djoser.urls.authtoken')),
 ]

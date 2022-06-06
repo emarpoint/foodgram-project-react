@@ -6,7 +6,6 @@ from .models import (Ingredient, Recipe, Tag, ShoppingCart,
                      )
 
 
-
 class IngredientRecipeInline(admin.TabularInline):
     """
     Параметры настроек админ зоны
@@ -23,6 +22,7 @@ class TagRecipeInline(admin.TabularInline):
     """
     model = TagRecipe
     extra = 0
+
 
 class IngredientAdmin(admin.ModelAdmin):
     """
@@ -43,6 +43,7 @@ class TageAdmin(admin.ModelAdmin):
     list_display = ('name', 'color', 'slug')
     empty_value_display = '-пусто-'
     search_fields = ('name', )
+
 
 class FavoriteAdmin(admin.ModelAdmin):
     """
@@ -65,6 +66,7 @@ class RecipeAdmin(admin.ModelAdmin):
     search_fields = ('name', 'author', 'tags')
     empty_value_display = '-пусто-'
     list_filter = ('name', 'author', 'tags')
+
     def count_favorite(self, obj):
         """
         Метод для подсчета общего числа
@@ -83,12 +85,12 @@ class ShoppingCartAdmin(admin.ModelAdmin):
     empty_value_display = '-пусто-'
     search_fields = ('recipe', )
 
+
 class SubscribeAdmin(admin.ModelAdmin):
     list_display = ('user', 'following')
     search_fields = ('user', )
     list_filter = ('user',)
     empty_value_display = '-пусто-'
-
 
 
 admin.site.register(Ingredient, IngredientAdmin)
@@ -97,4 +99,3 @@ admin.site.register(Recipe, RecipeAdmin)
 admin.site.register(ShoppingCart, ShoppingCartAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
 admin.site.register(Subscribe, SubscribeAdmin)
-

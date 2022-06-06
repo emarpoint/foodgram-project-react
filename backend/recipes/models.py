@@ -3,6 +3,7 @@ from django.db import models
 from django.core.validators import (MinValueValidator, MaxValueValidator)
 from colorfield.fields import ColorField
 
+
 class Ingredient(models.Model):
     """
     Создание модели продуктов.
@@ -17,7 +18,7 @@ class Ingredient(models.Model):
         max_length=200,
         verbose_name='Единицы измерения',
         help_text='Введите единицы измерения')
-    
+
     class Meta:
         """
         Параметры модели.
@@ -32,6 +33,7 @@ class Ingredient(models.Model):
         Method of string representation of the model.
         """
         return self.name
+
 
 class Tag(models.Model):
     """
@@ -91,7 +93,7 @@ class Recipe(models.Model):
     )
     image = models.ImageField(
         verbose_name="Загрузить фото",
-        upload_to='recipes/image/', 
+        upload_to='recipes/image/',
         help_text="Загрузите картинку блюда."
     )
     text = models.TextField(
@@ -103,28 +105,23 @@ class Recipe(models.Model):
         through='TagRecipe',
         verbose_name='Теги',
         help_text='Выберите тег рецепта',
-        
     )
-
     ingredients = models.ManyToManyField(
         Ingredient,
         through='IngredientRecipe',
         related_name='recipes',
         verbose_name='Продукты в рецепте',
         help_text='Выберите продукты рецепта.'
-    )    
-    
+    )
     cooking_time = models.IntegerField(
         validators=[
             MinValueValidator(1),
-            MaxValueValidator(500)      
+            MaxValueValidator(500)
         ],
         verbose_name="Время приготовления",
         help_text="Введите время приготовления в минутах."
     )
-  
-  
-    
+
     pub_date = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания',
@@ -139,7 +136,6 @@ class Recipe(models.Model):
         verbose_name_plural = "Создание рецепта"
         ordering = ('-pub_date', )
 
-
     def __str__(self):
         """
         Метод строкового представления модели.
@@ -148,8 +144,6 @@ class Recipe(models.Model):
         return self.name
 
 
-
-    
 class ShoppingCart(models.Model):
     """
     Создание модели списка покупок.
@@ -170,6 +164,7 @@ class ShoppingCart(models.Model):
         help_text='Выберите рецепт для добавления в список покупок.'
 
     )
+
     class Meta:
         """
         Параметры модели.
@@ -219,7 +214,6 @@ class IngredientRecipe(models.Model):
         """
         verbose_name = 'Продукты в рецепте'
         verbose_name_plural = 'Продукты в рецепте'
-      
 
     def __str__(self):
         """"
@@ -227,9 +221,6 @@ class IngredientRecipe(models.Model):
         Method of string representation of the model.
         """
         return f'{self.ingredient} {self.recipe}'
-
-
-
 
 
 class TagRecipe(models.Model):
@@ -242,7 +233,6 @@ class TagRecipe(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Теги',
         help_text='Выберите теги рецепта',
-        
     )
     recipe = models.ForeignKey(
         Recipe,
@@ -261,7 +251,6 @@ class TagRecipe(models.Model):
             models.UniqueConstraint(fields=['tags', 'recipe'],
                                     name='unique_tagrecipe')
         ]
-        
 
     def __str__(self):
         """"
@@ -269,8 +258,6 @@ class TagRecipe(models.Model):
         Method of string representation of the model.
         """
         return f'{self.tags} {self.recipe}'
-
-
 
 
 class Favorite(models.Model):
@@ -341,7 +328,6 @@ class Subscribe(models.Model):
         """
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
-        
 
     def __str__(self):
         """"
@@ -349,4 +335,3 @@ class Subscribe(models.Model):
         Method of string representation of the model.
         """
         return f'{self.user}'
-

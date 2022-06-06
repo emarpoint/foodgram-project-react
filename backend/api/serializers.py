@@ -7,8 +7,9 @@ from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
-from recipes.models import (ShoppingCart, Favorite, Ingredient, IngredientRecipe,
-                            Recipe, Subscribe, Tag, TagRecipe)
+from recipes.models import (ShoppingCart, Favorite, Ingredient,
+                            IngredientRecipe, Recipe, Subscribe,
+                            Tag, TagRecipe)
 from users.models import CustomUser
 
 
@@ -59,18 +60,17 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
     def get_is_in_shopping_cart(self, obj):
         """
         Метод обработки параметра is_in_shopping_cart в списке покупок.
-        The method of processing the is_in_shopping_cart parameter 
+        The method of processing the is_in_shopping_cart parameter
         in the shopping list.
         """
         request = self.context.get('request')
         if request.user.is_anonymous:
             return False
         if ShoppingCart.objects.filter(user=request.user,
-                               recipe__id=obj.id).exists():
+                                       recipe__id=obj.id).exists():
             return True
         else:
             return False
-
 
 
 class CommonCount(metaclass=serializers.SerializerMetaclass):
@@ -377,7 +377,7 @@ class SubscriptionSerializer(serializers.ModelSerializer,
         Метод получения данных рецептов автора,
         в зависимости от параметра recipes_limit.
         Method of obtaining the author's recipe data,
-        depending on the recipes_limit parameter. 
+        depending on the recipes_limit parameter.
         """
         request = self.context.get('request')
         if request.GET.get('recipes_limit'):

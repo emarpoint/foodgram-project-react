@@ -1,5 +1,7 @@
 
-### :hammer_and_wrench: Languages and Tools :
+### :hammer_and_wrench: Технологический стек :
+![Foodgram](https://github.com/emarpoint/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+
 <div>
     <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original-wordmark.svg" title="Python" alt="Python" width="40" height="40"/>&nbsp;
     <img src="https://github.com/devicons/devicon/blob/master/icons/django/django-plain-wordmark.svg" title="Django" alt="Django" width="40" height="40"/>&nbsp;
@@ -17,8 +19,6 @@
 
 *http://51.250.21.64/admin*
 
-## Технологический стек
-![Foodgram](https://github.com/emarpoint/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 ## Описание
 

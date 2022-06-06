@@ -6,7 +6,7 @@ from django.contrib.auth.models import AbstractUser
 class CustomUser(AbstractUser):
     """
     Создание модели пользователя.
-    Creating a user model.   
+    Creating a user model.
     """
     email = models.EmailField(
         db_index=True,
@@ -41,7 +41,6 @@ class CustomUser(AbstractUser):
     )
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'password']
-
 
     def __str__(self):
         """

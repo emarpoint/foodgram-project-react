@@ -19,9 +19,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Ingredient',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Введите название ингридиента', max_length=256, verbose_name='Название ингридиента')),
-                ('measurement_unit', models.CharField(help_text='Введите единицы измерения', max_length=200, verbose_name='Единицы измерения')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('name', models.CharField(
+                    help_text='Введите название ингридиента',
+                    max_length=256, verbose_name='Название ингридиента')),
+                ('measurement_unit', models.CharField(
+                    help_text='Введите единицы измерения',
+                    max_length=200, verbose_name='Единицы измерения')),
             ],
             options={
                 'verbose_name': ('Продукт',),
@@ -31,9 +37,18 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='IngredientRecipe',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.IntegerField(default=1, help_text='Введите количество продукта', validators=[django.core.validators.MinValueValidator(1)], verbose_name='Количество продукта')),
-                ('ingredient', models.ForeignKey(help_text='Добавить продукты рецепта в список.', on_delete=django.db.models.deletion.CASCADE, related_name='ingredientrecipes', to='recipes.Ingredient', verbose_name='Продукты рецепта')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('amount', models.IntegerField(
+                    default=1, help_text='Введите количество продукта',
+                    validators=[django.core.validators.MinValueValidator(1)],
+                    verbose_name='Количество продукта')),
+                ('ingredient', models.ForeignKey(
+                    help_text='Добавить продукты рецепта в список.',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='ingredientrecipes', to='recipes.Ingredient',
+                    verbose_name='Продукты рецепта')),
             ],
             options={
                 'verbose_name': 'Продукты в рецепте',
@@ -43,14 +58,37 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Recipe',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Введите название рецепта', max_length=256, verbose_name='Название рецепта')),
-                ('cooking_time', models.IntegerField(help_text='Введите время приготовления в минутах.', validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(500)], verbose_name='Время приготовления')),
-                ('text', models.TextField(help_text='Введите описание блюда.', verbose_name='Описание')),
-                ('image', models.ImageField(help_text='Загрузите картинку блюда.', upload_to='recipes/image/', verbose_name='Загрузить фото')),
-                ('pub_date', models.DateTimeField(auto_now_add=True, help_text='Добавить дату создания.', verbose_name='Дата создания')),
-                ('author', models.ForeignKey(help_text='Введите имя автора', on_delete=django.db.models.deletion.CASCADE, related_name='recipes', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
-                ('ingredients', models.ManyToManyField(help_text='Выберите продукты рецепта.', related_name='recipes', through='recipes.IngredientRecipe', to='recipes.Ingredient', verbose_name='Продукты в рецепте')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('name', models.CharField(
+                    help_text='Введите название рецепта',
+                    max_length=256, verbose_name='Название рецепта')),
+                ('cooking_time', models.IntegerField(
+                    help_text='Введите время приготовления в минутах.',
+                    validators=[django.core.validators.MinValueValidator(1),
+                                django.core.validators.MaxValueValidator(500)],
+                    verbose_name='Время приготовления')),
+                ('text', models.TextField(
+                    help_text='Введите описание блюда.',
+                    verbose_name='Описание')),
+                ('image', models.ImageField(
+                    help_text='Загрузите картинку блюда.',
+                    upload_to='recipes/image/',
+                    verbose_name='Загрузить фото')),
+                ('pub_date', models.DateTimeField(
+                    auto_now_add=True, help_text='Добавить дату создания.',
+                    verbose_name='Дата создания')),
+                ('author', models.ForeignKey(
+                    help_text='Введите имя автора',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='recipes', to=settings.AUTH_USER_MODEL,
+                    verbose_name='Автор')),
+                ('ingredients', models.ManyToManyField(
+                    help_text='Выберите продукты рецепта.',
+                    related_name='recipes', through='recipes.IngredientRecipe',
+                    to='recipes.Ingredient',
+                    verbose_name='Продукты в рецепте')),
             ],
             options={
                 'verbose_name': ('Рецепт',),
@@ -60,9 +98,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Tag',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Введите название тэга', max_length=256, verbose_name='Название тэга')),
-                ('color', colorfield.fields.ColorField(default='#FF0000', help_text='Введите цвет тэга', image_field=None, max_length=18, samples=None, verbose_name='Цвет')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('name', models.CharField(
+                    help_text='Введите название тэга',
+                    max_length=256, verbose_name='Название тэга')),
+                ('color', colorfield.fields.ColorField(
+                    default='#FF0000', help_text='Введите цвет тэга',
+                    image_field=None, max_length=18,
+                    samples=None, verbose_name='Цвет')),
                 ('slug', models.SlugField(unique=True)),
             ],
             options={
@@ -73,9 +118,17 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TagRecipe',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recipe', models.ForeignKey(help_text='Выберите рецепт', on_delete=django.db.models.deletion.CASCADE, to='recipes.Recipe', verbose_name='Рецепт')),
-                ('tags', models.ForeignKey(help_text='Выберите теги рецепта', on_delete=django.db.models.deletion.CASCADE, to='recipes.Tag', verbose_name='Теги')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('recipe', models.ForeignKey(
+                    help_text='Выберите рецепт',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='recipes.Recipe', verbose_name='Рецепт')),
+                ('tags', models.ForeignKey(
+                    help_text='Выберите теги рецепта',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='recipes.Tag', verbose_name='Теги')),
             ],
             options={
                 'verbose_name': 'Теги рецепта',
@@ -85,9 +138,19 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Subscribe',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('following', models.ForeignKey(help_text='Выберите автора, на которого подписываются.', on_delete=django.db.models.deletion.CASCADE, related_name='following', to=settings.AUTH_USER_MODEL, verbose_name='Автор')),
-                ('user', models.ForeignKey(help_text='Выберите пользователя, который подписывается.', on_delete=django.db.models.deletion.CASCADE, related_name='follower', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('following', models.ForeignKey(
+                    help_text='Выберите автора, на которого подписываются.',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='following', to=settings.AUTH_USER_MODEL,
+                    verbose_name='Автор')),
+                ('user', models.ForeignKey(
+                    help_text='Выберите пользователя, который подписывается.',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='follower',
+                    to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
             ],
             options={
                 'verbose_name': 'Подписка',
@@ -97,9 +160,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ShoppingCart',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recipe', models.ForeignKey(help_text='Выберите рецепт для добавления в список покупок.', on_delete=django.db.models.deletion.CASCADE, to='recipes.Recipe', verbose_name='Рецепты')),
-                ('user', models.ForeignKey(help_text='Выберете пользователя.', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('recipe', models.ForeignKey(
+                    help_text=f"{'Выберите рецепт'}"
+                    f"{'для добавления в список покупок.'}",
+
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='recipes.Recipe',
+                    verbose_name='Рецепты')),
+                ('user', models.ForeignKey(
+                    help_text='Выберете пользователя.',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL,
+                    verbose_name='Пользователь')),
             ],
             options={
                 'verbose_name': ('Список покупок',),
@@ -109,19 +184,35 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='recipe',
             name='tags',
-            field=models.ManyToManyField(help_text='Выберите тег рецепта', through='recipes.TagRecipe', to='recipes.Tag', verbose_name='Теги'),
+            field=models.ManyToManyField(
+                help_text='Выберите тег рецепта',
+                through='recipes.TagRecipe',
+                to='recipes.Tag', verbose_name='Теги'),
         ),
         migrations.AddField(
             model_name='ingredientrecipe',
             name='recipe',
-            field=models.ForeignKey(help_text='Выберите рецепт', on_delete=django.db.models.deletion.CASCADE, to='recipes.Recipe', verbose_name='Рецепт'),
+            field=models.ForeignKey(
+                help_text='Выберите рецепт',
+                on_delete=django.db.models.deletion.CASCADE,
+                to='recipes.Recipe', verbose_name='Рецепт'),
         ),
         migrations.CreateModel(
             name='Favorite',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('recipe', models.ForeignKey(help_text='Выберите рецепт', on_delete=django.db.models.deletion.CASCADE, to='recipes.Recipe', verbose_name='Рецепт')),
-                ('user', models.ForeignKey(help_text='Выберите пользователя', on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                ('id', models.AutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID')),
+                ('recipe', models.ForeignKey(
+                    help_text='Выберите рецепт',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to='recipes.Recipe',
+                    verbose_name='Рецепт')),
+                ('user', models.ForeignKey(
+                    help_text='Выберите пользователя',
+                    on_delete=django.db.models.deletion.CASCADE,
+                    to=settings.AUTH_USER_MODEL,
+                    verbose_name='Пользователь')),
             ],
             options={
                 'verbose_name': 'Избранный',
@@ -130,10 +221,12 @@ class Migration(migrations.Migration):
         ),
         migrations.AddConstraint(
             model_name='tagrecipe',
-            constraint=models.UniqueConstraint(fields=('tags', 'recipe'), name='unique_tagrecipe'),
+            constraint=models.UniqueConstraint(
+                fields=('tags', 'recipe'), name='unique_tagrecipe'),
         ),
         migrations.AddConstraint(
             model_name='favorite',
-            constraint=models.UniqueConstraint(fields=('user', 'recipe'), name='unique_favorite'),
+            constraint=models.UniqueConstraint(
+                fields=('user', 'recipe'), name='unique_favorite'),
         ),
     ]
