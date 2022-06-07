@@ -117,22 +117,22 @@ DATABASES = {
 #                 'NumericPasswordValidator',
 #     },
 # ]
-AUTH_PWD_MODULE = "django.contrib.auth.password_validation."
+# AUTH_PWD_MODULE = "django.contrib.auth.password_validation."
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": f"{AUTH_PWD_MODULE}UserAttributeSimilarityValidator",
-    },
-    {
-        "NAME": f"{AUTH_PWD_MODULE}MinimumLengthValidator",
-    },
-    {
-        "NAME": f"{AUTH_PWD_MODULE}CommonPasswordValidator",
-    },
-    {
-        "NAME": f"{AUTH_PWD_MODULE}NumericPasswordValidator",
-    },
-]
+# AUTH_PASSWORD_VALIDATORS = [
+#     {
+#         "NAME": f"{AUTH_PWD_MODULE}UserAttributeSimilarityValidator",
+#     },
+#     {
+#         "NAME": f"{AUTH_PWD_MODULE}MinimumLengthValidator",
+#     },
+#     {
+#         "NAME": f"{AUTH_PWD_MODULE}CommonPasswordValidator",
+#     },
+#     {
+#         "NAME": f"{AUTH_PWD_MODULE}NumericPasswordValidator",
+#     },
+# ]
 
 # AUTH_PASSWORD_VALIDATORS = [
 #     {"NAME": f"django.contrib.auth.password_validation.{name}"}
