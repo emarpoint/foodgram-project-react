@@ -99,15 +99,31 @@ DATABASES = {
 #     }
 # }
 
+# flake8: noqa
 
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": f"django.contrib.auth.password_validation.{name}"}
-    for name in [
-     "UserAttributeSimilarityValidator",
-     "MinimumLengthValidator",
-     "CommonPasswordValidator",
-     "NumericPasswordValidator"
-     ]]
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+# AUTH_PASSWORD_VALIDATORS = [
+#     {"NAME": f"django.contrib.auth.password_validation.{name}"}
+#     for name in [
+#      "UserAttributeSimilarityValidator",
+#      "MinimumLengthValidator",
+#      "CommonPasswordValidator",
+#      "NumericPasswordValidator"
+#      ]]
 
 DJOSER = {
     'PERMISSIONS': {
