@@ -22,7 +22,7 @@ services:
 
   frontend:
     
-    image: emarpoint/foodgram_frontend
+    image: emarpoint/foodgram
     volumes:
       - result_build:/app/result_build/build/
     depends_on:
