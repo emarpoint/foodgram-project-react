@@ -21,9 +21,7 @@ services:
 
 
   frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
+    image: emarpoint/foodgram_front:v07.06.2022
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
