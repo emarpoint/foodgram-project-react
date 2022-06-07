@@ -22,13 +22,12 @@ services:
 
   frontend:
     build:
-      
+      context: ./frontend
       dockerfile: Dockerfile
     volumes:
       - result_build:/app/result_build/build/
     depends_on:
       - db
-
 
   nginx:
     image: nginx:1.21.3-alpine
