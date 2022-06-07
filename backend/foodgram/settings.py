@@ -99,24 +99,6 @@ DATABASES = {
 #     }
 # }
 
-
-# AUTH_PASSWORD_VALIDATORS = [{
-#         'NAME': 'django.contrib.auth.password_validation.' +
-#                 'UserAttributeSimilarityValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.' +
-#                 'MinimumLengthValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.' +
-#                 'CommonPasswordValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.' +
-#                 'NumericPasswordValidator',
-#     },
-# ]
 AUTH_PWD_MODULE = "django.contrib.auth.password_validation."
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -134,19 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# AUTH_PASSWORD_VALIDATORS = [
-#     {"NAME": f"django.contrib.auth.password_validation.{name}"}
-#     for name in [
-#      "UserAttributeSimilarityValidator",
-#      "MinimumLengthValidator",
-#      "CommonPasswordValidator",
-#      "NumericPasswordValidator"
-#      ]]
-
-
-
-
-
 
 DJOSER = {
     'PERMISSIONS': {
@@ -160,25 +129,6 @@ DJOSER = {
         'current_user': 'api.serializers.RegistrationSerializer',
     }
 }
-
-
-
-# Password validation
-
-# AUTH_PASSWORD_VALIDATORS = [
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#     },
-# ]
 
 LANGUAGE_CODE = 'ru'
 
