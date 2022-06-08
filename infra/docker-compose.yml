@@ -20,13 +20,13 @@ services:
       - ./.env
 
 
-  # frontend:
+  frontend:
     
-  #   image: emarpoint/foodgram_frontend:latest
-  #   volumes:
-  #     - ./frontend/:/app/result_build/
-  #   depends_on:
-  #     - db
+    image: emarpoint/foodgram_frontend:latest
+    volumes:
+      - ./frontend/:/app/result_build/
+    depends_on:
+      - db
 
 
   nginx:
@@ -41,7 +41,6 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - backend
-      - frontend
 
 
 
