@@ -1,6 +1,7 @@
 
 ### :hammer_and_wrench: Технологический стек :
 ![Foodgram](https://github.com/emarpoint/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+![GitHub Streak](http://github-readme-streak-stats.herokuapp.com?user=your-github-username&theme=dark&background=000000)(https://git.io/streak-stats)
 
 <div>
     <img src="https://github.com/devicons/devicon/blob/master/icons/python/python-original-wordmark.svg" title="Python" alt="Python" width="40" height="40"/>&nbsp;
@@ -8,6 +9,7 @@
     <img src="https://github.com/devicons/devicon/blob/master/icons/docker/docker-original-wordmark.svg" title="Docker" alt="Docker" width="40" height="40"/>&nbsp;
     <img src="https://github.com/devicons/devicon/blob/master/icons/nginx/nginx-original.svg" title="Nginx" alt="Nginx" width="40" height="40"/>&nbsp;
     <img src="https://github.com/devicons/devicon/blob/master/icons/postgresql/postgresql-original-wordmark.svg" title="Postgresql" alt="Postgresql" width="40" height="40"/>
+    <img src="https://camo.githubusercontent.com/eb61c0a4e1607e8052a9feb827408d8315a08b148089601fbe8dc3b0a8a466ff/    68747470733a2f2f696d672e736869656c64732e696f2f62616467652f2d507974686f6e2d3436343634363f7374796c653d666c61742d7371756172    65266c6f676f3d507974686f6e" alt="Python" data-canonical-src="https://img.shields.io/badge/-Python-464646?    style=flat-square&amp;logo=Python" style="max-width: 100%;">
 </div>
 
 # Проект Foodgram

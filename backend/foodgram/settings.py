@@ -17,7 +17,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*", 'localhost']
+ALLOWED_HOSTS = ["*", 'localhost', "foodlist.ddns.net"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
