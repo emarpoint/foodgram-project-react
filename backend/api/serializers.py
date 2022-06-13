@@ -1,6 +1,6 @@
 """
 Создание необходимых сериализаторов.
-Creating the necessary sterilizers.
+Creating the necessary sterilizers..
 """
 from django.core.validators import RegexValidator
 from djoser.serializers import UserCreateSerializer
