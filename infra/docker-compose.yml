@@ -7,9 +7,15 @@ services:
     restart: always
     env_file:
       - .env
+  frontend:
+    context: ./frontend
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      - db
 
   backend:
-    image: emarpoint/foodgram_backend:latest
+    image: emarpoint/foodgram:latest
     restart: always
     depends_on:
       - db
@@ -18,16 +24,6 @@ services:
       - media_value:/app/backend/media/
     env_file:
       - ./.env
-
-
-  frontend:
-    
-    image: emarpoint/foodgram_frontend:v15.06.2022
-    volumes:
-      - ../frontend/:/app/result_build/
-    depends_on:
-      - backend
-
 
   nginx:
     image: nginx:1.21.3-alpine
@@ -41,7 +37,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - backend
-
+      - frontend
 
 
 volumes:
