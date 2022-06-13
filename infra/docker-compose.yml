@@ -13,7 +13,7 @@ services:
     env_file:
       - ./.env
  
-  web:
+  backend:
     image: emarpoint/foodgram:latest
     restart: always
     volumes:
@@ -36,7 +36,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
-      - web
+      - backend
 
 
 volumes:
