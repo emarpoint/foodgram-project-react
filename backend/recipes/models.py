@@ -1,6 +1,7 @@
 from colorfield.fields import ColorField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
 from users.models import CustomUser
 
 
@@ -41,6 +42,7 @@ class Tag(models.Model):
     Creating a tag model.
     """
     name = models.CharField(
+        unique=True,
         max_length=256,
         verbose_name="Название тэга",
         help_text="Введите название тэга"

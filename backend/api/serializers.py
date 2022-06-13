@@ -2,12 +2,13 @@
 Создание необходимых сериализаторов.
 Creating the necessary sterilizers.
 """
-
+from django.core.validators import RegexValidator
 from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework import serializers
+
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Subscribe, Tag, TagRecipe)
-from rest_framework import serializers
 from users.models import CustomUser
 
 
@@ -91,6 +92,18 @@ class RegistrationSerializer(UserCreateSerializer, CommonSubscribed):
     Создание сериализатора модели пользователя.
     Creating a user model serializer.
     """
+    username = serializers.CharField(
+        max_length=150,
+        validators=[
+            RegexValidator(
+                regex=r'^[\w.@+-]+\z',
+                message="Недопустимый символ в slug.",
+                ),
+            ],
+
+
+        )
+        
     class Meta:
         """
         Мета параметры сериализатора модели пользователя.
@@ -170,13 +183,25 @@ class TagSerializer(serializers.ModelSerializer):
     Создание сериализатора модели тегов.
     Creating a tag model serializer.
     """
+    slug = serializers.SlugField(
+        max_length=50,
+        # unique=True,
+        validators=[
+            RegexValidator(
+                regex='^[-a-zA-Z0-9_]+$',
+                message="Недопустимый символ в slug.",
+
+                ),
+            ]
+    )
+
     class Meta:
         """
         Мета параметры сериализатора модели тегов.
         Meta parameters of the tag model serializer.
         """
         model = Tag
-        fields = '__all__'
+        fields = ("id", "name", "color", "slug")
         extra_kwargs = {'name': {'required': False},
                         'slug': {'required': False},
                         'color': {'required': False}}
