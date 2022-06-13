@@ -103,7 +103,7 @@ class RegistrationSerializer(UserCreateSerializer, CommonSubscribed):
 
 
         )
-        
+
     class Meta:
         """
         Мета параметры сериализатора модели пользователя.
