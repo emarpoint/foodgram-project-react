@@ -1,5 +1,10 @@
 version: '3.8'
 services:
+  frontend:
+    image: emarpoint/foodgram:v1
+    volumes:
+      - ../frontend/:/app/result_build/
+
   db:
     image: postgres:13.0-alpine
     volumes:
@@ -8,8 +13,7 @@ services:
     env_file:
       - ./.env
  
-
-  backend:
+  web:
     image: emarpoint/foodgram:latest
     restart: always
     volumes:
@@ -19,15 +23,6 @@ services:
       - db
     env_file:
       - ./.env
-
-  frontend:
-    build:
-      context: ../frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ../frontend/:/app/result_build/
-    depends_on:
-      - backend
 
   nginx:
     image: nginx:1.21.3-alpine
@@ -41,6 +36,7 @@ services:
       - media_value:/var/html/media/
     depends_on:
       - frontend
+      - web
 
 
 volumes:
