@@ -6,26 +6,28 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     restart: always
     env_file:
-      - .env
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    volumes:
-      - ../frontend/:/app/result_build/
-    depends_on:
-      - db
+      - ./.env
+ 
 
   backend:
     image: emarpoint/foodgram:latest
     restart: always
-    depends_on:
-      - db
     volumes:
       - static_value:/app/backend/static/
       - media_value:/app/backend/media/
+    depends_on:
+      - db
     env_file:
       - ./.env
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      - backend
 
   nginx:
     image: nginx:1.21.3-alpine
@@ -38,7 +40,6 @@ services:
       - static_value:/var/html/static/
       - media_value:/var/html/media/
     depends_on:
-      - backend
       - frontend
 
 
