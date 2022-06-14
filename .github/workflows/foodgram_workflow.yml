@@ -37,15 +37,12 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         stack_file_name: docker-compose.yaml
         script: |
-          cd infra/
-          sudo docker compose down -v
-          sudo docker compose rm infra
-          sudo docker rmi -f $(sudo docker images -aq)
-          sudo docker volume prune -f
-          rm .env
-         
-          # git pull
-          # sudo docker pull ${{ secrets.USER }}/foodgram
+          # cd dev/foodgram-project-react/infra/
+          # sudo docker compose down -v
+          # sudo docker compose rm infra
+          # sudo docker rmi -f $(sudo docker images -aq)
+          # sudo docker volume prune -f
+          # rm .env    
           sudo docker-compose stop
           sudo docker-compose rm web
           touch .env
