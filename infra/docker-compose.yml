@@ -22,18 +22,18 @@ services:
       - "8000:8000"
     env_file:
       - ./.env
-  frontend:
-    image: emarpoint/frontend
-    volumes:
-      - ../frontend/:/app/result_build/
-    depends_on:
-      - db
   # frontend:
-  #   build:
-  #     context: ../frontend
-  #     dockerfile: Dockerfile
+  #   image: emarpoint/frontend
   #   volumes:
   #     - ../frontend/:/app/result_build/
+  #   depends_on:
+  #     - db
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ../frontend/:/app/result_build/
 
   nginx:
     image: nginx:1.19.3
