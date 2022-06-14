@@ -1,7 +1,7 @@
 
 ### :hammer_and_wrench: Технологический стек :
 ![Foodgram](https://github.com/emarpoint/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
-/github/pipenv/locked/python-version/:user/:repo
+
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/-Django-464646?style=flat-square&logo=Django)](https://www.djangoproject.com/)
