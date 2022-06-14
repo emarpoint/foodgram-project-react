@@ -37,10 +37,11 @@ jobs:
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
           cd dev/foodgram-project-react/infra/
-          git pull
-          sudo docker pull ${{ secrets.USER }}/foodgram
-          sudo docker-compose stop
-          sudo docker-compose rm web
+          sudo docker compose down -v
+          sudo docker compose rm infra
+          sudo docker rmi -f $(sudo docker images -aq)
+          sudo docker volume prune -f
+          rm .env
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -48,8 +49,7 @@ jobs:
           echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
-          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env
-          sudo docker-compose up -d
+          sudo docker compose up -d --force-recreate --build
           sudo docker compose exec web python manage.py makemigrations
           sudo docker compose exec web python manage.py migrate
           sudo docker compose exec web python manage.py collectstatic --noinput
