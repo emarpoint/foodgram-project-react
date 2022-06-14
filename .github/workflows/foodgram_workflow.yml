@@ -41,9 +41,11 @@ jobs:
           # sudo docker compose rm infra
           # sudo docker rmi -f $(sudo docker images -aq)
           # sudo docker volume prune -f
-          # rm .env
-          sudo docker-compose stop
-          sudo docker-compose rm web
+          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram
+          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/frontend
+          rm .env
+          # sudo docker-compose stop
+          # sudo docker-compose rm web
           touch .env
           echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -52,9 +54,9 @@ jobs:
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           sudo docker compose up -d --force-recreate --build
-          sudo docker compose exec web python manage.py makemigrations
-          sudo docker compose exec web python manage.py migrate
-          sudo docker compose exec web python manage.py collectstatic --noinput
+          # sudo docker compose exec web python manage.py makemigrations
+          # sudo docker compose exec web python manage.py migrate
+          # sudo docker compose exec web python manage.py collectstatic --noinput
 
   send_message:
     runs-on: ubuntu-latest
