@@ -36,9 +36,9 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          # cd ${{ github.event.repository.name }}
-          # git pull
-          # sudo docker pull ${{ secrets.USER }}/foodgram
+          cd dev/foodgram-project-react/infra/
+          git pull
+          sudo docker pull ${{ secrets.USER }}/foodgram
           sudo docker-compose stop
           sudo docker-compose rm web
           touch .env
