@@ -44,6 +44,8 @@ jobs:
           # sudo docker volume prune -f
           # rm .env
           cd ${{ github.event.repository.name }}
+          pwd
+          ls
           git pull
           sudo docker pull ${{ secrets.USER }}/foodgram
           sudo docker-compose stop
