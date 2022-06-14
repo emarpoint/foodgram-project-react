@@ -44,9 +44,8 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: emarpoint/backend:latest
+          tags: emarpoint/foodgram-project:latest
           file: ./backend/Dockerfile
-          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram-project:latest
 
   deploy:
     runs-on: ubuntu-latest
