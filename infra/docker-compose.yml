@@ -11,7 +11,7 @@ services:
 
   backend:
     # build: ../backend
-    image: emarpoint/foodgram_backend
+    image: emarpoint/foodgram-project
     restart: always
     volumes:
       - static_value:/app/static/
