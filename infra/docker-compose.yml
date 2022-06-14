@@ -10,7 +10,7 @@ services:
       - ./.env
 
   web:
-    image: hellfast/foodgram:latest
+    image: emarpoint/foodgram:latest
     restart: always
     volumes:
       - static_value:/app/static/
