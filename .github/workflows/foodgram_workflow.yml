@@ -65,7 +65,7 @@ jobs:
             ls
             # cd dev/foodgram-project-react/infra/
             sudo docker compose stop
-            sudo docker container rm backend
+            sudo docker container rm infra_backend
             sudo docker image rm ***fast/foodgram-project
             rm .env
             touch .env
@@ -77,9 +77,9 @@ jobs:
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo DJ_SECRET_KEY=${{ secrets.DJ_SECRET_KEY }} >> .env
             sudo docker compose up -d
-            sudo docker compose exec web python manage.py makemigrations
-            sudo docker compose exec web python manage.py migrate
-            sudo docker compose exec web python manage.py collectstatic --noinput
+            # sudo docker compose exec backend python manage.py makemigrations
+            # sudo docker compose exec backend python manage.py migrate
+            # sudo docker compose exec backend python manage.py collectstatic --noinput
 
   send_message:
     runs-on: ubuntu-latest
