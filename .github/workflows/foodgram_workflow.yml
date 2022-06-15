@@ -45,7 +45,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram-project:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram-backend:latest
         
 
   deploy:
@@ -61,11 +61,14 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-
-            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-project
-            sudo docker container stop -a
-            sudo docker compose stop
-            sudo docker compose rm backend
+            sudo pwd
+            ls
+            cd dev/foodgram-project-react/infra/
+            sudo docker compose down -v
+            sudo docker compose rm infra
+            sudo docker rmi -f $(sudo docker images -aq)
+            sudo docker volume prune -f
+            rm .env
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
