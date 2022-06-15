@@ -61,7 +61,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo pwd
+            pwd
             ls
             # cd dev/foodgram-project-react/infra/
             sudo docker compose stop
@@ -77,8 +77,7 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo DJ_SECRET_KEY=${{ secrets.DJ_SECRET_KEY }} >> .env
-            ls
-            pwd
+            
             sudo docker compose up -d
             # sudo docker compose exec backend python manage.py makemigrations
             # sudo docker compose exec backend python manage.py migrate
