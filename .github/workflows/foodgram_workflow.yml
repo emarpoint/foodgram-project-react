@@ -46,6 +46,11 @@ jobs:
           file: ./backend/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/foodgram-project:latest
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -61,8 +66,7 @@ jobs:
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram-project
-            # sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend
-
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_frontend
             sudo docker compose stop
             sudo docker compose rm backend
             touch .env
