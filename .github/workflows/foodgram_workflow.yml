@@ -68,7 +68,7 @@ jobs:
             # sudo docker container prune
             # sudo docker container rm infra_backend
             # sudo docker image rm ***fast/foodgram-project
-            rm .env
+            # rm .env
             touch .env
             echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
             echo DB_NAME=${{ secrets.DB_NAME }} >> .env
@@ -77,6 +77,8 @@ jobs:
             echo DB_HOST=${{ secrets.DB_HOST }} >> .env
             echo DB_PORT=${{ secrets.DB_PORT }} >> .env
             echo DJ_SECRET_KEY=${{ secrets.DJ_SECRET_KEY }} >> .env
+            ls
+            pwd
             sudo docker compose up -d
             # sudo docker compose exec backend python manage.py makemigrations
             # sudo docker compose exec backend python manage.py migrate
