@@ -65,7 +65,8 @@ jobs:
             ls
             # cd dev/foodgram-project-react/infra/
             sudo docker compose stop
-            sudo docker container rm infra_backend
+            sudo docker container prune
+            # sudo docker container rm infra_backend
             sudo docker image rm ***fast/foodgram-project
             rm .env
             touch .env
