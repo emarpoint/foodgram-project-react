@@ -2,6 +2,7 @@
 Создание необходимых сериализаторов.
 Creating the necessary sterilizers..
 """
+import re
 from django.core.validators import RegexValidator
 from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
@@ -95,8 +96,8 @@ class RegistrationSerializer(UserCreateSerializer, CommonSubscribed):
         max_length=150,
         validators=[
             RegexValidator(
-                regex=r'^[\w.@+-]+\z',
-                message="Недопустимый символ в slug.",
+                regex=r'^[\w.@+-]+\Z',
+                message="Недопустимый символ в slug. / Enter a valid value."
                 ),
             ],
 
@@ -184,12 +185,10 @@ class TagSerializer(serializers.ModelSerializer):
     """
     slug = serializers.SlugField(
         max_length=50,
-        # unique=True,
         validators=[
             RegexValidator(
                 regex='^[-a-zA-Z0-9_]+$',
-                message="Недопустимый символ в slug.",
-
+                message="Недопустимый символ в slug. / Enter a valid value."
                 ),
             ]
     )
