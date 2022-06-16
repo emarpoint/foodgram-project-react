@@ -2,7 +2,7 @@
 Создание необходимых сериализаторов.
 Creating the necessary sterilizers..
 """
-import re
+
 from django.core.validators import RegexValidator
 from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
