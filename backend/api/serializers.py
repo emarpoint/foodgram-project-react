@@ -2,14 +2,31 @@
 Создание необходимых сериализаторов.
 Creating the necessary sterilizers..
 """
+import logging
+import sys
 
 from django.core.validators import RegexValidator
+from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
+from rest_framework import serializers
+
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
                             ShoppingCart, Subscribe, Tag, TagRecipe)
-from rest_framework import serializers
 from users.models import CustomUser
+
+formatter = logging.Formatter(
+    '%(asctime)s %(levelname)s %(message)s - строка %(lineno)s'
+)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+handler = logging.StreamHandler(sys.stdout)
+logger.addHandler(handler)
+handler.setFormatter(formatter)
+logger.disabled = False
+logger.debug('Логирование из serializers запущено')
+
 
 
 class CommonSubscribed(metaclass=serializers.SerializerMetaclass):
@@ -27,11 +44,8 @@ class CommonSubscribed(metaclass=serializers.SerializerMetaclass):
         request = self.context.get('request')
         if request.user.is_anonymous:
             return False
-        if Subscribe.objects.filter(
-                user=request.user, following__id=obj.id).exists():
-            return True
-        else:
-            return False
+        return Subscribe.objects.filter(
+                user=request.user, following__id=obj.id).exists()
 
 
 class CommonRecipe(metaclass=serializers.SerializerMetaclass):
@@ -50,11 +64,9 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         request = self.context.get('request')
         if request.user.is_anonymous:
             return False
-        if Favorite.objects.filter(user=request.user,
-                                   recipe__id=obj.id).exists():
-            return True
-        else:
-            return False
+        return Favorite.objects.filter(user=request.user,
+                                   recipe__id=obj.id).exists()
+            
 
     def get_is_in_shopping_cart(self, obj):
         """
@@ -65,11 +77,9 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         request = self.context.get('request')
         if request.user.is_anonymous:
             return False
-        if ShoppingCart.objects.filter(user=request.user,
-                                       recipe__id=obj.id).exists():
-            return True
-        else:
-            return False
+        return ShoppingCart.objects.filter(user=request.user,
+                                       recipe__id=obj.id).exists()
+            
 
 
 class CommonCount(metaclass=serializers.SerializerMetaclass):
@@ -167,8 +177,7 @@ class IngredientAmountRecipeSerializer(serializers.ModelSerializer):
     Создание сериализатора продуктов с количеством для записи.
     Creating a serializer of products with a quantity to record.
     """
-    id = serializers.IntegerField(source='ingredient.id')
-
+    id = serializers.IntegerField()
     class Meta:
         """
         Мета параметры сериализатора продуктов с количеством.
@@ -236,8 +245,10 @@ class RecipeSerializer(serializers.ModelSerializer,
     author = RegistrationSerializer(read_only=True)
     tags = TagSerializer(many=True)
     ingredients = IngredientAmountSerializer(
-        source='ingredientrecipes',
-        many=True)
+        # source='ingredients',
+        many=True,
+        read_only=True,
+)
     is_in_shopping_cart = serializers.SerializerMethodField()
 
     class Meta:
@@ -262,7 +273,7 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         queryset=Tag.objects.all(),
         many=True)
     ingredients = IngredientAmountRecipeSerializer(
-        source='ingredientrecipes', many=True)
+        many=True)
     image = Base64ImageField(max_length=None, use_url=False,)
 
     class Meta:
@@ -286,7 +297,7 @@ class RecipeSerializerPost(serializers.ModelSerializer,
             if ingredient['amount'] < 1:
                 raise serializers.ValidationError(
                     'Количество должно быть равным или больше 1!')
-            id_to_check = ingredient['ingredient']['id']
+            id_to_check = ingredient['id']
             ingredient_to_check = Ingredient.objects.filter(id=id_to_check)
             if not ingredient_to_check.exists():
                 raise serializers.ValidationError(
@@ -297,43 +308,50 @@ class RecipeSerializerPost(serializers.ModelSerializer,
             ingredients_list.append(ingredient_to_check)
         return value
 
-    def add_tags_and_ingredients(self, tags_data, ingredients, recipe):
+    
+    def create_ingredients(self, ingredients, recipe):
         """
-        Метод выполнения общих функции для создания и изменения рецептов.
-        Method of performing common functions to create and modify recipes.
+        Метод создания ингредиента
         """
-        for tag_data in tags_data:
-            recipe.tags.add(tag_data)
-            recipe.save()
         for ingredient in ingredients:
             if not IngredientRecipe.objects.filter(
-                    ingredient_id=ingredient['ingredient']['id'],
+                    ingredient_id=ingredient['id'],
                     recipe=recipe).exists():
-                ingredientrecipe = IngredientRecipe.objects.create(
-                    ingredient_id=ingredient['ingredient']['id'],
+                IngredientRecipe.objects.create(
+                    ingredient_id=ingredient['id'],
+                    amount=ingredient['amount'],
                     recipe=recipe)
-                ingredientrecipe.amount = ingredient['amount']
-                ingredientrecipe.save()
             else:
                 IngredientRecipe.objects.filter(
                     recipe=recipe).delete()
-                recipe.delete()
                 raise serializers.ValidationError(
                     'Данные продукты повторяются в рецепте!')
         return recipe
+
+ 
+    def create_tags(self, tags, recipe):
+        """
+        Метод создания тега.
+        """
+        for tag in tags:
+            recipe.tags.add(tag)
+
 
     def create(self, validated_data):
         """
         Метод создания рецептов.
         The method of creating recipes.
         """
-        author = validated_data.get('author')
-        tags_data = validated_data.pop('tags')
+        logger.debug('Метод создания рецептов запущен.')
+        print(validated_data)
+        author = validated_data.pop('author')
+        tags = validated_data.pop('tags')
         name = validated_data.get('name')
         image = validated_data.get('image')
         text = validated_data.get('text')
         cooking_time = validated_data.get('cooking_time')
-        ingredients = validated_data.pop('ingredientrecipes')
+        logger.debug(self.validated_data)
+        ingredients = validated_data.pop('ingredients')
         recipe = Recipe.objects.create(
             author=author,
             name=name,
@@ -341,7 +359,9 @@ class RecipeSerializerPost(serializers.ModelSerializer,
             text=text,
             cooking_time=cooking_time,
         )
-        return self.add_tags_and_ingredients(tags_data, ingredients, recipe)
+        self.create_tags(tags, recipe)
+        self.create_ingredients(ingredients, recipe)
+        return recipe
 
     def update(self, instance, validated_data):
         """
@@ -349,13 +369,12 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         Recipe editing method.
         """
         tags_data = validated_data.pop('tags')
-        ingredients = validated_data.pop('ingredientrecipes')
+        ingredients = validated_data.pop('ingredients')
         TagRecipe.objects.filter(recipe=instance).delete()
         IngredientRecipe.objects.filter(recipe=instance).delete()
         instance = self.add_tags_and_ingredients(
             tags_data, ingredients, instance)
         super().update(instance, validated_data)
-        instance.save()
         return instance
 
 
@@ -407,3 +426,4 @@ class SubscriptionSerializer(serializers.ModelSerializer,
         else:
             queryset = Recipe.objects.filter(author__id=obj.id).order_by('id')
         return RecipeMinifieldSerializer(queryset, many=True).data
+

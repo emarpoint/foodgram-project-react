@@ -1,6 +1,7 @@
 from colorfield.fields import ColorField
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+
 from users.models import CustomUser
 
 
@@ -26,6 +27,10 @@ class Ingredient(models.Model):
         """
         verbose_name = 'Продукт',
         verbose_name_plural = 'Продукты'
+        constraints = [
+            models.UniqueConstraint(fields=['name', 'measurement_unit'],
+                                    name='unique ingredient')
+        ]
 
     def __str__(self):
         """
@@ -107,6 +112,8 @@ class Recipe(models.Model):
         verbose_name='Теги',
         help_text='Выберите тег рецепта',
     )
+
+
     ingredients = models.ManyToManyField(
         Ingredient,
         through='IngredientRecipe',
@@ -171,6 +178,13 @@ class ShoppingCart(models.Model):
         Параметры модели.
         Model parameters.
         """
+        ordering = ['-id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'recipe'],
+                name='unique_shopping_cart'
+            )
+        ]
         verbose_name = "Список покупок",
         verbose_name_plural = "Создание списка покупок"
 
@@ -190,7 +204,6 @@ class IngredientRecipe(models.Model):
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.CASCADE,
-        related_name='ingredientrecipes',
         verbose_name='Продукты рецепта',
         help_text='Добавить продукты рецепта в список.')
     recipe = models.ForeignKey(
@@ -213,6 +226,13 @@ class IngredientRecipe(models.Model):
         Параметры модели.
         Model parameters.
         """
+        ordering = ['-id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['ingredient', 'recipe'],
+                name='unique_ingredient_recipe'
+            )
+        ]
         verbose_name = 'Продукты в рецепте'
         verbose_name_plural = 'Продукты в рецепте'
 
@@ -327,6 +347,13 @@ class Subscribe(models.Model):
         Параметры модели.
         Model parameters.
         """
+        ordering = ['-id']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'following'],
+                name='unique_subscribe'
+            )
+        ]
         verbose_name = 'Подписка'
         verbose_name_plural = 'Подписки'
 

@@ -20,21 +20,25 @@ DEBUG = True
 ALLOWED_HOSTS = ["*", 'localhost', "foodlist.ddns.net"]
 
 INSTALLED_APPS = [
+    # Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Apps
+    'users',
+    'api',
+    'recipes',
+
+    # Pip install
     'rest_framework',
     'rest_framework.authtoken',
     'djoser',
     'colorfield',
-    'users',
-    'api',
-    'recipes',
     'django_filters',
-
 ]
 
 MIDDLEWARE = [
@@ -91,14 +95,6 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT', '5432')
     }
 }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 AUTH_PWD_MODULE = "django.contrib.auth.password_validation."
 
