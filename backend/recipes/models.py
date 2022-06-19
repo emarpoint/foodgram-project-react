@@ -211,7 +211,7 @@ class IngredientRecipe(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Рецепт',
         help_text='Выберите рецепт',
-        related_name='ingredientrecipes',
+        related_name='ingredientamount',
 
     )
     amount = models.IntegerField(

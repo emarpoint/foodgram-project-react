@@ -178,6 +178,7 @@ class IngredientAmountRecipeSerializer(serializers.ModelSerializer):
     Creating a serializer of products with a quantity to record.
     """
     id = serializers.IntegerField()
+    
     class Meta:
         """
         Мета параметры сериализатора продуктов с количеством.
@@ -245,7 +246,7 @@ class RecipeSerializer(serializers.ModelSerializer,
     author = RegistrationSerializer(read_only=True)
     tags = TagSerializer(many=True)
     ingredients = IngredientAmountSerializer(
-        # source='ingredients',
+        source='ingredientamount',
         many=True,
         read_only=True,
 )
@@ -273,6 +274,7 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         queryset=Tag.objects.all(),
         many=True)
     ingredients = IngredientAmountRecipeSerializer(
+        # source='ingredientamount',
         many=True)
     image = Base64ImageField(max_length=None, use_url=False,)
 
@@ -314,19 +316,12 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         Метод создания ингредиента
         """
         for ingredient in ingredients:
-            if not IngredientRecipe.objects.filter(
-                    ingredient_id=ingredient['id'],
-                    recipe=recipe).exists():
-                IngredientRecipe.objects.create(
+            logger.debug(ingredient)
+            IngredientRecipe.objects.create(
                     ingredient_id=ingredient['id'],
                     amount=ingredient['amount'],
                     recipe=recipe)
-            else:
-                IngredientRecipe.objects.filter(
-                    recipe=recipe).delete()
-                raise serializers.ValidationError(
-                    'Данные продукты повторяются в рецепте!')
-        return recipe
+            return recipe
 
  
     def create_tags(self, tags, recipe):
@@ -342,38 +337,28 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         Метод создания рецептов.
         The method of creating recipes.
         """
+
         logger.debug('Метод создания рецептов запущен.')
-        print(validated_data)
-        author = validated_data.pop('author')
         tags = validated_data.pop('tags')
-        name = validated_data.get('name')
-        image = validated_data.get('image')
-        text = validated_data.get('text')
-        cooking_time = validated_data.get('cooking_time')
+        image = validated_data.pop('image')
         logger.debug(self.validated_data)
         ingredients = validated_data.pop('ingredients')
-        recipe = Recipe.objects.create(
-            author=author,
-            name=name,
-            image=image,
-            text=text,
-            cooking_time=cooking_time,
-        )
+        recipe = Recipe.objects.create(image=image, **validated_data )
         self.create_tags(tags, recipe)
         self.create_ingredients(ingredients, recipe)
         return recipe
 
     def update(self, instance, validated_data):
         """
-        Метод редактирования рецептов.
-        Recipe editing method.
+        Метод редактирования ингредиентов.
+        Recipe editing ingredients.
         """
+        instance.tags.clear()
         tags_data = validated_data.pop('tags')
         ingredients = validated_data.pop('ingredients')
-        TagRecipe.objects.filter(recipe=instance).delete()
         IngredientRecipe.objects.filter(recipe=instance).delete()
-        instance = self.add_tags_and_ingredients(
-            tags_data, ingredients, instance)
+        self.create_tags(tags_data, instance)
+        self.create_ingredients(ingredients, instance)
         super().update(instance, validated_data)
         return instance
 
