@@ -112,8 +112,6 @@ class Recipe(models.Model):
         verbose_name='Теги',
         help_text='Выберите тег рецепта',
     )
-
-
     ingredients = models.ManyToManyField(
         Ingredient,
         through='IngredientRecipe',

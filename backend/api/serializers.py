@@ -42,8 +42,8 @@ class CommonSubscribed(metaclass=serializers.SerializerMetaclass):
         request = self.context.get('request')
         if request.user.is_anonymous:
             return False
-        return Subscribe.objects.filter(
-                user=request.user, following__id=obj.id).exists()
+        return Subscribe.objects.filter(user=request.user,
+                                        following__id=obj.id).exists()
 
 
 class CommonRecipe(metaclass=serializers.SerializerMetaclass):
@@ -63,7 +63,7 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         if request.user.is_anonymous:
             return False
         return Favorite.objects.filter(user=request.user,
-                                        recipe__id=obj.id).exists()
+                                       recipe__id=obj.id).exists()
 
     def get_is_in_shopping_cart(self, obj):
         """
@@ -304,7 +304,7 @@ class RecipeSerializerPost(serializers.ModelSerializer,
                     'Данные продукты повторяются в рецепте!')
             ingredients_list.append(ingredient_to_check)
         return value
-    
+
     def create_ingredients(self, ingredients, recipe):
         """
         Метод создания ингредиента
@@ -312,9 +312,9 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         for ingredient in ingredients:
             logger.debug(ingredient)
             IngredientRecipe.objects.create(
-                    ingredient_id=ingredient['id'],
-                    amount=ingredient['amount'],
-                    recipe=recipe)
+                ingredient_id=ingredient['id'],
+                amount=ingredient['amount'],
+                recipe=recipe)
             return recipe
 
     def create_tags(self, tags, recipe):
