@@ -10,7 +10,7 @@ services:
 
   backend:
      
-    image: emarpoint/foodgram-project
+    image: emarpoint/foodgram-backend
     restart: always
     volumes:
       - static_value:/code/static/
