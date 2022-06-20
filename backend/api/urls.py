@@ -39,8 +39,6 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
 ]
 
-
-
 if settings.DEBUG:
     static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(
