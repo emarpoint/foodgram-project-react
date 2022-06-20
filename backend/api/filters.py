@@ -9,7 +9,6 @@ from users.models import CustomUser
 from recipes.models import Recipe
 
 
-
 class RecipeFilters(django_filter.FilterSet):
     """
     Настройка фильтров модели рецептов.

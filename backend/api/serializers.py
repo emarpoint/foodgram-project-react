@@ -6,13 +6,12 @@ import logging
 import sys
 
 from django.core.validators import RegexValidator
-from django.shortcuts import get_object_or_404
 from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 
 from recipes.models import (Favorite, Ingredient, IngredientRecipe, Recipe,
-                            ShoppingCart, Subscribe, Tag, TagRecipe)
+                            ShoppingCart, Subscribe, Tag)
 from users.models import CustomUser
 
 formatter = logging.Formatter(
@@ -26,7 +25,6 @@ logger.addHandler(handler)
 handler.setFormatter(formatter)
 logger.disabled = False
 logger.debug('Логирование из serializers запущено')
-
 
 
 class CommonSubscribed(metaclass=serializers.SerializerMetaclass):
@@ -65,8 +63,7 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         if request.user.is_anonymous:
             return False
         return Favorite.objects.filter(user=request.user,
-                                   recipe__id=obj.id).exists()
-            
+                                        recipe__id=obj.id).exists()
 
     def get_is_in_shopping_cart(self, obj):
         """
@@ -78,8 +75,7 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         if request.user.is_anonymous:
             return False
         return ShoppingCart.objects.filter(user=request.user,
-                                       recipe__id=obj.id).exists()
-            
+                                           recipe__id=obj.id).exists()
 
 
 class CommonCount(metaclass=serializers.SerializerMetaclass):
@@ -178,7 +174,7 @@ class IngredientAmountRecipeSerializer(serializers.ModelSerializer):
     Creating a serializer of products with a quantity to record.
     """
     id = serializers.IntegerField()
-    
+
     class Meta:
         """
         Мета параметры сериализатора продуктов с количеством.
@@ -248,8 +244,7 @@ class RecipeSerializer(serializers.ModelSerializer,
     ingredients = IngredientAmountSerializer(
         source='ingredientamount',
         many=True,
-        read_only=True,
-)
+        read_only=True,)
     is_in_shopping_cart = serializers.SerializerMethodField()
 
     class Meta:
@@ -309,7 +304,6 @@ class RecipeSerializerPost(serializers.ModelSerializer,
                     'Данные продукты повторяются в рецепте!')
             ingredients_list.append(ingredient_to_check)
         return value
-
     
     def create_ingredients(self, ingredients, recipe):
         """
@@ -323,14 +317,12 @@ class RecipeSerializerPost(serializers.ModelSerializer,
                     recipe=recipe)
             return recipe
 
- 
     def create_tags(self, tags, recipe):
         """
         Метод создания тега.
         """
         for tag in tags:
             recipe.tags.add(tag)
-
 
     def create(self, validated_data):
         """
@@ -343,7 +335,7 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         image = validated_data.pop('image')
         logger.debug(self.validated_data)
         ingredients = validated_data.pop('ingredients')
-        recipe = Recipe.objects.create(image=image, **validated_data )
+        recipe = Recipe.objects.create(image=image, **validated_data)
         self.create_tags(tags, recipe)
         self.create_ingredients(ingredients, recipe)
         return recipe
@@ -411,4 +403,3 @@ class SubscriptionSerializer(serializers.ModelSerializer,
         else:
             queryset = Recipe.objects.filter(author__id=obj.id).order_by('id')
         return RecipeMinifieldSerializer(queryset, many=True).data
-
