@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='12345')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*", 'localhost', "foodlist.ddns.net"]
 
