@@ -294,7 +294,8 @@ class Favorite(models.Model):
         Recipe,
         on_delete=models.CASCADE,
         verbose_name='Рецепт',
-        help_text='Выберите рецепт'
+        help_text='Выберите рецепт',
+        related_name='favorites',
     )
 
     class Meta:
