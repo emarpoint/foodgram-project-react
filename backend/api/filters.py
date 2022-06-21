@@ -2,21 +2,22 @@
 Настройка пользовательских фильтров.
 """
 
-from django_filters import rest_framework as django_filter
+# from django_filters import rest_framework as django_filter
+from django_filters.rest_framework import filters
 from rest_framework import filters
 
 from users.models import CustomUser
 from recipes.models import Recipe
 
 
-class RecipeFilters(django_filter.FilterSet):
+class RecipeFilters(filters.FilterSet):
     """
     Настройка фильтров модели рецептов.
     """
-    author = django_filter.ModelChoiceFilter(queryset=CustomUser.objects.all())
-    tags = django_filter.AllValuesMultipleFilter(field_name='tags__slug')
-    is_favorited = django_filter.BooleanFilter(method='get_is_favorited')
-    is_in_shopping_cart = django_filter.BooleanFilter(
+    author = filters.ModelChoiceFilter(queryset=CustomUser.objects.all())
+    tags = filters.AllValuesMultipleFilter(field_name='tags__slug')
+    is_favorited = filters.BooleanFilter(method='get_is_favorited')
+    is_in_shopping_cart = filters.BooleanFilter(
         method='get_is_in_shopping_cart')
 
     class Meta:
