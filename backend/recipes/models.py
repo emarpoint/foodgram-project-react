@@ -37,7 +37,7 @@ class Ingredient(models.Model):
         Метод строкового представления модели.
         Method of string representation of the model.
         """
-        return self.name
+        return self.name[:15]
 
 
 class Tag(models.Model):
