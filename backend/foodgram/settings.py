@@ -123,6 +123,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 DJOSER = {
+    'LOGIN_FIELD':'email',
+    'HIDE_USERS':'False',
+    'PASSWORD_REST_CONFIRM_URL':'users/set_password/{uid}/{token}',
     'PERMISSIONS': {
         'user_list': ['rest_framework.permissions.AllowAny'],
         'user': ['rest_framework.permissions.IsAuthenticated'],
