@@ -198,7 +198,7 @@ class DownloadShoppingCart(viewsets.ModelViewSet):
         top_position = 700
         # Connecting fonts from the data folder
         pdfmetrics.registerFont(TTFont('FreeSans',
-                                       'data/FreeSans.ttf'))
+                                       'fonts/FreeSans.ttf'))
         p.setFont('FreeSans', 25)
         # Draw things on the PDF. Here's where the PDF generation happens.
         p.drawString(left_position, top_position + 40, "Список покупок:")
@@ -206,7 +206,7 @@ class DownloadShoppingCart(viewsets.ModelViewSet):
         # Adding a shopping list from the database
         for number, item in enumerate(result, start=1):
             pdfmetrics.registerFont(
-                TTFont('Miama Nueva', 'data/Miama Nueva.ttf')
+                TTFont('Miama Nueva', 'fonts/Miama Nueva.ttf')
                 )
             p.setFont('Miama Nueva', 14)
             p.drawString(
