@@ -4,8 +4,8 @@ Creating the necessary sterilizers..
 """
 import logging
 import sys
-from django.shortcuts import get_object_or_404
 
+from django.shortcuts import get_object_or_404
 from django.core.validators import RegexValidator
 from djoser.serializers import UserCreateSerializer
 from drf_extra_fields.fields import Base64ImageField
