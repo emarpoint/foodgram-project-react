@@ -23,7 +23,7 @@ from .filters import IngredientSearchFilter, RecipeFilters
 from .serializers import (FavoriteSerializer, IngredientSerializer,
                           RecipeSerializer, RecipeSerializerPost,
                           RegistrationSerializer, ShoppingCartSerializer,
-                          SubscriptionSerializer, TagSerializer)
+                          SubscriptionSerializer, TagSerializer, RecipeMinifieldSerializer)
 
 
 class CreateUserView(UserViewSet):
@@ -136,11 +136,19 @@ class BaseFavoriteCartViewSet(viewsets.ModelViewSet):
         Метод создания модели корзины или избранных рецептов.
         A method for creating a basket model or selected recipes.
         """
+
         recipe_id = int(self.kwargs['recipes_id'])
         recipe = get_object_or_404(Recipe, id=recipe_id)
-        self.model.objects.create(
+        if self.model.objects.filter(user=request.user, recipe=recipe).exists():
+            return Response({
+                'errors': 'Рецепт уже добавлен в список'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        object = self.model.objects.create(
             user=request.user, recipe=recipe)
+        object.save()
         return Response(status=status.HTTP_201_CREATED)
+   
 
     def delete(self, request, *args, **kwargs):
         """
@@ -153,6 +161,9 @@ class BaseFavoriteCartViewSet(viewsets.ModelViewSet):
             self.model, user__id=user_id, recipe__id=recipe_id)
         object.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
+
 
 
 class ShoppingCartViewSet(BaseFavoriteCartViewSet):

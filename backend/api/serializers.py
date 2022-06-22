@@ -78,6 +78,8 @@ class CommonRecipe(metaclass=serializers.SerializerMetaclass):
         return ShoppingCart.objects.filter(user=request.user,
                                            recipe__id=obj.id).exists()
 
+    
+
 
 class CommonCount(metaclass=serializers.SerializerMetaclass):
     """
@@ -372,6 +374,7 @@ class RecipeMinifieldSerializer(serializers.ModelSerializer):
     Сериализатор для упрощенного отображения модели рецептов.
     Sterilizer for simplified display of the recipe model.
     """
+    image = Base64ImageField()
     class Meta:
         """
         Мета параметры сериализатора упрощенного

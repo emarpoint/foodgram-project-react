@@ -61,7 +61,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'author', 'cooking_time',
                     'id', 'count_favorite', 'pub_date')
-    search_fields = ('name', 'author', 'tags')
+    # search_fields = ('name', 'author', 'tags')
     empty_value_display = '-пусто-'
     list_filter = ('name', 'author', 'tags')
 
