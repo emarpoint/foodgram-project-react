@@ -1,8 +1,3 @@
-"""
-Django настройки для проекта Foodgram.
-Django settings for the Foodgram project.
-"""
-
 import os
 
 from dotenv import load_dotenv
@@ -15,12 +10,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='12345')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*", 'localhost', "foodlist.ddns.net"]
 
+# Application definition
+
 INSTALLED_APPS = [
-    # Default
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +35,8 @@ INSTALLED_APPS = [
     'djoser',
     'colorfield',
     'django_filters',
+    
+
 ]
 
 MIDDLEWARE = [
@@ -51,23 +49,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'foodgram.urls'
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
 
 WSGI_APPLICATION = 'foodgram.wsgi.application'
 
@@ -89,16 +72,62 @@ REST_FRAMEWORK = {
 }
 
 
+WSGI_APPLICATION = 'foodgram.wsgi.application'
+
+
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+ROOT_URLCONF = 'foodgram.urls'
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
+#         'NAME': os.getenv('DB_NAME', 'postgres'),
+#         'USER': os.getenv('POSTGRES_USER', 'postgres'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
+#         'HOST': os.getenv('DB_HOST', 'db'),
+#         'PORT': os.getenv('DB_PORT', '5432')
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.postgresql'),
-        'NAME': os.getenv('DB_NAME', 'postgres'),
-        'USER': os.getenv('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'postgres'),
-        'HOST': os.getenv('DB_HOST', 'db'),
-        'PORT': os.getenv('DB_PORT', '5432')
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+AUTH_USER_MODEL = 'users.CustomUser'
+
 
 AUTH_PWD_MODULE = "django.contrib.auth.password_validation."
 
@@ -116,7 +145,6 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": f"{AUTH_PWD_MODULE}NumericPasswordValidator",
     },
 ]
-
 
 DJOSER = {
     'LOGIN_FIELD':'email',
@@ -145,7 +173,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-AUTH_USER_MODEL = 'users.CustomUser'
 
 
 MEDIA_URL = '/media/'

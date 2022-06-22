@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
 
 
 class CustomUser(AbstractUser):
@@ -41,9 +43,24 @@ class CustomUser(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name', 'password']
 
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+        ordering = ['username', 'email']
+
+
     def __str__(self):
         """
         Строковое представление модели (отображается в консоли).
         String representation of the model (displayed in the console).
         """
         return self.username
+
+
+# @admin.register(PostModel)
+# class PostAdmin(admin.ModelAdmin):
+#     ...
+#     list_filter = (
+#         ('is_visible', admin.BooleanFieldListFilter),
+#         ('description', admin.EmptyFieldListFilter),
+#     )

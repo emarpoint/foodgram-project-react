@@ -25,14 +25,6 @@ class RecipeFilters(django_filter.FilterSet):
         model = Recipe
         fields = ('author', 'tags', 'is_favorited', 'is_in_shopping_cart')
 
-    # def get_is_favorited(self, queryset, name, value):
-    #     """
-    #     Метод обработки фильтров параметра is_favorited.
-    #     """
-    #     if self.request.user.is_authenticated and value:
-    #         return queryset.filter(favorites__user=self.request.user)
-    #     return queryset
-
     def get_is_favorited(self, queryset, name, value):
         if value and not self.request.user.is_anonymous:
             return queryset.filter(favorites__user=self.request.user)

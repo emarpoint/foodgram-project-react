@@ -11,6 +11,7 @@ class Ingredient(models.Model):
     Creating a product model.
     """
     name = models.CharField(
+        unique=True,
         max_length=256,
         verbose_name="Название ингридиента",
         help_text="Введите название ингридиента"
