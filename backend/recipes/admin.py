@@ -9,6 +9,7 @@ class IngredientRecipeInline(admin.TabularInline):
     Параметры настроек админ зоны
     модели ингредиентов в рецепте.
     """
+
     model = IngredientRecipe
     extra = 0
 
