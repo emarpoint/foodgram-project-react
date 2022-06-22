@@ -58,7 +58,7 @@ class SubscribeViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(CustomUser, id=user_id)
         Subscribe.objects.create(
             user=request.user, following=user)
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(HTTPStatus.CREATED)
 
     def delete(self, request, *args, **kwargs):
         """
