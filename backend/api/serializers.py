@@ -212,6 +212,15 @@ class TagSerializer(serializers.ModelSerializer):
                         'color': {'required': False}}
 
 
+class ShortRecipeSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для краткого отображения сведений о рецепте
+    """
+    class Meta:
+        model = Recipe
+        fields = ('id', 'name', 'image', 'cooking_time')
+
+
 class FavoriteSerializer(serializers.Serializer):
     """
     Создание сериализатора избранных рецептов.
@@ -310,15 +319,9 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         """
         Метод создания ингредиента
         """
-        # for ingredient in ingredients:
-        #     logger.debug(ingredient)
-        #     IngredientRecipe.objects.create(
-        #         ingredient_id=ingredient['id'],
-        #         amount=ingredient['amount'],
-        #         recipe=recipe)
-        #     return recipe
 
         for ingredient in ingredients:
+            logger.debug(ingredient)
             ingredient_object = get_object_or_404(
                 Ingredient, id=ingredient.get('id')
             )
@@ -326,7 +329,6 @@ class RecipeSerializerPost(serializers.ModelSerializer,
                 ingredient_object,
                 through_defaults={'amount': ingredient.get('amount')}
             )
-        recipe.save()
         return recipe
 
     def create_tags(self, tags, recipe):
