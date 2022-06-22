@@ -2,6 +2,7 @@
 Создание view классов обработки запросов.
 Creating view classes for processing requests.
 """
+from http import HTTPStatus
 
 from django.db.models import Sum
 from django.http import HttpResponse
@@ -130,25 +131,116 @@ class BaseFavoriteCartViewSet(viewsets.ModelViewSet):
     The basic viewset for processing the basket model and selected recipes.
     """
     permission_classes = [permissions.IsAuthenticated]
+# ------------------------------------------------------------------
+    # def create(self, request, *args, **kwargs):
+    #     """
+    #     Метод создания модели корзины или избранных рецептов.
+    #     A method for creating a basket model or selected recipes.
+    #     """
+    #     recipe_id = int(self.kwargs['recipes_id'])
+    #     recipe = get_object_or_404(Recipe, id=recipe_id)
+    #     if self.model.objects.filter(user=request.user, recipe=recipe).exists():
+    #         return Response({
+    #             'errors': 'Рецепт уже добавлен в список'
+    #         }, status=status.HTTP_400_BAD_REQUEST)
+    #     self.model.objects.create(
+    #              user=request.user, recipe=recipe)
+    #     return Response(status=status.HTTP_201_CREATED)
 
+# ---------------------------------------------------------------
+
+
+
+    # def create(self, request, *args, **kwargs):
+    #     """
+    #     Метод создания модели корзины или избранных рецептов.
+    #     A method for creating a basket model or selected recipes.
+    #     """
+    #     recipe_id = int(self.kwargs['recipes_id'])
+    #     recipe = get_object_or_404(Recipe, id=recipe_id)
+    #     if self.model.objects.filter(user=request.user, recipe=recipe).exists():
+    #         return Response({
+    #             'errors': 'Рецепт уже добавлен в список'
+    #         }, status=status.HTTP_400_BAD_REQUEST)
+    #     self.model.objects.create(
+    #              user=request.user, recipe=recipe)
+    #     return Response(status=status.HTTP_201_CREATED)
     def create(self, request, *args, **kwargs):
         """
         Метод создания модели корзины или избранных рецептов.
-        A method for creating a basket model or selected recipes.
         """
-
         recipe_id = int(self.kwargs['recipes_id'])
         recipe = get_object_or_404(Recipe, id=recipe_id)
-        if self.model.objects.filter(user=request.user, recipe=recipe).exists():
-            return Response({
-                'errors': 'Рецепт уже добавлен в список'
-            }, status=status.HTTP_400_BAD_REQUEST)
-
-        object = self.model.objects.create(
+        self.model.objects.create(
             user=request.user, recipe=recipe)
-        object.save()
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(HTTPStatus.CREATED)
+
+
+        # object = self.model.objects.create(
+        #     user=request.user, recipe=recipe)
+        # return Response(status=status.HTTP_201_CREATED)
+        # recipe_id = int(self.kwargs['recipes_id'])
+        # recipe = get_object_or_404(Recipe, id=recipe_id)
+        # if self.model.objects.filter(user=request.user, recipe=recipe).exists():
+        #     return Response({
+        #         'errors': 'Рецепт уже добавлен в список'
+        #     }, status=status.HTTP_400_BAD_REQUEST)
+
+        # self.objects.create(user=request.user, recipe=recipe)
+        # serializer = RecipeSerializer(recipe)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED)
    
+    # def add_obj(self, model, user, pk):
+    #     if model.objects.filter(user=user, recipe__id=pk).exists():
+    #         return Response({
+    #             'errors': 'Рецепт уже добавлен в список'
+    #         }, status=status.HTTP_400_BAD_REQUEST)
+    #     recipe = get_object_or_404(Recipe, id=pk)
+    #     model.objects.create(user=user, recipe=recipe)
+    #     serializer = CropRecipeSerializer(recipe)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # def create(self, request, *args, **kwargs):
+    #     """
+    #     Метод создания модели корзины или избранных рецептов.
+    #     A method for creating a basket model or selected recipes.
+    #     """
+    
+    #     recipe_id = int(self.kwargs['recipes_id'])
+    #     recipe = get_object_or_404(Recipe, id=recipe_id)
+    #     if self.model.objects.filter(user=request.user, recipe=recipe).exists():
+    #         return Response({
+    #             'errors': 'Рецепт уже добавлен в список'
+    #         }, status=status.HTTP_400_BAD_REQUEST)
+
+    #     object = self.model.objects.create(
+    #         user=request.user, recipe=recipe)
+    #     # return Response(status=status.HTTP_201_CREATED)
+    #     return Response({
+    #                 "id": ,
+    #                 "name": "string",
+    #                 "image": "http://foodgram.example.org/media/recipes/images/image.jpeg",
+    #                 "cooking_time": 1
+    #                 }, status=status.HTTP_201_CREATED)
+
+
+
+    # def perform_create(self, serializer):
+    #     serializer.save(author=self.request.user)
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.create(serializer)
+    #     serializer = RecipeSerializerPost(
+    #         instance=serializer.instance,
+    #         context={'request': self.request}
+    #     )
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(
+    #         serializer.data, status= status.HTTP_201_CREATED, headers=headers
+    #     )
+
 
     def delete(self, request, *args, **kwargs):
         """
