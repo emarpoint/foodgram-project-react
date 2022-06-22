@@ -4,6 +4,7 @@ Creating the necessary sterilizers..
 """
 import logging
 import sys
+from django.shortcuts import get_object_or_404
 
 from django.core.validators import RegexValidator
 from djoser.serializers import UserCreateSerializer
@@ -309,13 +310,24 @@ class RecipeSerializerPost(serializers.ModelSerializer,
         """
         Метод создания ингредиента
         """
+        # for ingredient in ingredients:
+        #     logger.debug(ingredient)
+        #     IngredientRecipe.objects.create(
+        #         ingredient_id=ingredient['id'],
+        #         amount=ingredient['amount'],
+        #         recipe=recipe)
+        #     return recipe
+
         for ingredient in ingredients:
-            logger.debug(ingredient)
-            IngredientRecipe.objects.create(
-                ingredient_id=ingredient['id'],
-                amount=ingredient['amount'],
-                recipe=recipe)
-            return recipe
+            ingredient_object = get_object_or_404(
+                Ingredient, id=ingredient.get('id')
+            )
+            recipe.ingredients.add(
+                ingredient_object,
+                through_defaults={'amount': ingredient.get('amount')}
+            )
+        recipe.save()
+        return recipe
 
     def create_tags(self, tags, recipe):
         """
