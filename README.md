@@ -1,6 +1,5 @@
 
 ### :hammer_and_wrench: Стек технологий:
-![Foodgram](https://github.com/emarpoint/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 
 [![Python](https://img.shields.io/badge/-Python-464646?style=flat-square&logo=Python)](https://www.python.org/)
