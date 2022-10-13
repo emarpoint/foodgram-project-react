@@ -18,9 +18,6 @@
 # Проект Foodgram
 *https://github.com/emarpoint/foodgram-project-react*
 
-## Адрес
-
-*http://foodlist.ddns.net*
 
 ## Описание
 
